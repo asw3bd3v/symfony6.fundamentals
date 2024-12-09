@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Psr\Cache\CacheItemInterface;
 
 use function Symfony\Component\String\u;
 
@@ -33,6 +35,7 @@ class VinylController extends AbstractController
     #[Route('/browse/{slug}', name: 'app_browse')]
     public function browse(
         HttpClientInterface $httpClient,
+        CacheInterface $cache,
         DateTimeFormatter $timeFormatter,
         string $slug = null
     ): Response {
@@ -42,8 +45,15 @@ class VinylController extends AbstractController
         /* foreach ($mixes as $key => $mix) {
             $mixes[$key]['ago'] = $timeFormatter->formatDiff($mix['createdAt']);
         } */
-        $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-        $mixes = $response->toArray();
+        
+        /* $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+        $mixes = $response->toArray(); */
+
+        $mixes = $cache->get('mixes_data', function(CacheItemInterface $cacheItem) use ($httpClient) {
+            $cacheItem->expiresAfter(5);
+            $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
+            return $response->toArray();
+        });
 
         return $this->render('vinyl/browse.html.twig', [
             'genre' => $genre,
