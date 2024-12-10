@@ -40,6 +40,9 @@ class VinylController extends AbstractController
         string $slug = null
     ): Response {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
+        
+        dump($cache);
+        
         //$mixes = $this->getMixes();
 
         /* foreach ($mixes as $key => $mix) {
