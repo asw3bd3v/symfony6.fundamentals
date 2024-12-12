@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MixRepository;
 use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,11 +38,12 @@ class VinylController extends AbstractController
         HttpClientInterface $httpClient,
         CacheInterface $cache,
         DateTimeFormatter $timeFormatter,
+        MixRepository $mixRepository,
         string $slug = null
     ): Response {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
         
-        dump($cache);
+        //dump($cache);
         
         //$mixes = $this->getMixes();
 
@@ -52,11 +54,13 @@ class VinylController extends AbstractController
         /* $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
         $mixes = $response->toArray(); */
 
-        $mixes = $cache->get('mixes_data', function(CacheItemInterface $cacheItem) use ($httpClient) {
+        /* $mixes = $cache->get('mixes_data', function(CacheItemInterface $cacheItem) use ($httpClient) {
             $cacheItem->expiresAfter(5);
             $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
             return $response->toArray();
-        });
+        }); */
+
+        $mixes = $mixRepository->findAll();
 
         return $this->render('vinyl/browse.html.twig', [
             'genre' => $genre,
