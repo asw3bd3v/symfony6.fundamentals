@@ -18,4 +18,14 @@ framework:
         #pools:
             #my.dedicated.cache: null
         
-        # app: cache.adapter.array
+        app: cache.adapter.filesystem
+
+#when@prod:
+#    framework:
+#        cache:
+#            app: cache.adapter.filesystem
+
+when@dev:
+    framework:
+        cache:
+            app: cache.adapter.array
