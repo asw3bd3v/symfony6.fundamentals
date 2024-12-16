@@ -7,9 +7,6 @@ use Knp\Bundle\TimeBundle\DateTimeFormatter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\Cache\CacheInterface;
-use Psr\Cache\CacheItemInterface;
 
 use function Symfony\Component\String\u;
 
@@ -35,30 +32,11 @@ class VinylController extends AbstractController
 
     #[Route('/browse/{slug}', name: 'app_browse')]
     public function browse(
-        HttpClientInterface $httpClient,
-        CacheInterface $cache,
         DateTimeFormatter $timeFormatter,
         MixRepository $mixRepository,
         string $slug = null
     ): Response {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        
-        //dump($cache);
-        
-        //$mixes = $this->getMixes();
-
-        /* foreach ($mixes as $key => $mix) {
-            $mixes[$key]['ago'] = $timeFormatter->formatDiff($mix['createdAt']);
-        } */
-        
-        /* $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-        $mixes = $response->toArray(); */
-
-        /* $mixes = $cache->get('mixes_data', function(CacheItemInterface $cacheItem) use ($httpClient) {
-            $cacheItem->expiresAfter(5);
-            $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-            return $response->toArray();
-        }); */
 
         $mixes = $mixRepository->findAll();
 
