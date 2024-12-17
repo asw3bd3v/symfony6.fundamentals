@@ -1,6 +1,3 @@
-parameters:
-    cache_adapter: 'cache.adapter.filesystem'
-
 framework:
     cache:
         # Unique name of your app: used to compute stable namespaces for cache keys.
@@ -27,7 +24,3 @@ framework:
 #    framework:
 #        cache:
 #            app: cache.adapter.filesystem
-
-when@dev:
-    parameters:
-        cache_adapter: 'cache.adapter.array'
