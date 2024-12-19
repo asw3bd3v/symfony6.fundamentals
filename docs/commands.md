@@ -72,3 +72,11 @@ php bin/console debug:container --parameters
 ```
 php bin/console debug:config framework cache --env=prod
 ```
+
+# 20. Environment Variables
+
+Визуализация переменных окружения с помощью debug:dotenv
+
+```
+php bin/console debug:dotenv
+```

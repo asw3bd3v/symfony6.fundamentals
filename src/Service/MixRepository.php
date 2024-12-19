@@ -30,7 +30,11 @@ class MixRepository
         return $this->cache->get('mixes_data', function (CacheItemInterface $cacheItem) {
             $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
             //$response = $this->httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-            $response = $this->githubContentClient->request('GET', '/SymfonyCasts/vinyl-mixes/main/mixes.json');
+            $response = $this->githubContentClient->request('GET', '/SymfonyCasts/vinyl-mixes/main/mixes.json', /* [
+                'headers' => [
+                    'Authorization' => 'GITHUB_TOKEN',
+                ]
+            ] */);
             return $response->toArray();
         });
     }
