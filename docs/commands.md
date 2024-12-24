@@ -90,3 +90,19 @@ php bin/console debug:dotenv
 ```
 php bin/console secrets:set
 ```
+
+# 22. Reading Secrets vs Env Vars
+
+Теперь давайте создадим хранилище среды prod. Сделайте это, сказав:
+
+```
+php bin/console secrets:set GITHUB_TOKEN --env=prod
+```
+
+Просмотр списка секретных значений
+
+```
+php bin/console secrets:list
+php bin/console secrets:list --reveal
+php bin/console secrets:list --reveal --env=prod
+```
