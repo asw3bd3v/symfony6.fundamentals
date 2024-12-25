@@ -59,6 +59,12 @@ php bin/console debug:container
 php bin/console cache:clear
 ```
 
+Прогрев кэша
+
+```
+php bin/console cache:warmup
+```
+
 # 13. Parameters
 
 Помимо служб, он содержит параметры. Это простые значения конфигурации, и мы можем увидеть их, выполнив похожую команду:
