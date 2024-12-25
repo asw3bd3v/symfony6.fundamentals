@@ -112,3 +112,11 @@ php bin/console secrets:list
 php bin/console secrets:list --reveal
 php bin/console secrets:list --reveal --env=prod
 ```
+
+# 23. MakerBundle & Autoconfiguration
+
+Создание собственной новой пользовательской консольной команды
+
+```
+php bin/console make:command
+```
